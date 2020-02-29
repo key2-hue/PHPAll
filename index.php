@@ -29,16 +29,25 @@ try {
   // $fruits->bindParam(':name',$name, PDO::PARAM_STR);
   // $fruits->bindValue(':price',1000,PDO::PARAM_INT);
   // $fruits->execute();
-  $fruits->bindParam(':name',$name,PDO::PARAM_STR);
-  $fruits->bindParam(':price',$price,PDO::PARAM_INT);
-  $name = 'kiwi';
-  $price = 790;
-  $fruits->execute();
-  $name = 'peach';
-  $price = 200;
-  $fruits->execute();
+  // $fruits->bindParam(':name',$name,PDO::PARAM_STR);
+  // $fruits->bindParam(':price',$price,PDO::PARAM_INT);
+  // $name = 'kiwi';
+  // $price = 790;
+  // $fruits->execute();
+  // $name = 'peach';
+  // $price = 200;
+  // $fruits->execute();
 
-  
+  // $fruits = $pdo->query("select * from fruits where price < 700");
+  // $fruitsAll = $fruits->fetchAll(PDO::FETCH_ASSOC);
+  $fruits = $pdo->prepare("select * from fruits where name like ?");
+  $fruits->execute(['%i%']);
+  foreach($fruits as $fruit) {
+    echo $fruit["name"];
+    echo '<br>';
+  }
+  echo $fruits->rowCount() . "件抽出されました";
+
 } catch(PDOException $e) {
   echo "エラー発生しました";
   echo $e->getMessage();
