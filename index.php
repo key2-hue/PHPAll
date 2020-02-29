@@ -20,7 +20,7 @@ try {
   // $fruits = $pdo->prepare("insert into fruits (name, price) values (:name, :price)");
   // $fruits->execute([':name' => 'orange', ':price' => 700]);
   // echo $pdo->lastInsertId() . "番目のフルーツを登録しました！";
-  $fruits = $pdo->prepare("insert into fruits (name, price) values (:name, :price)");
+  // $fruits = $pdo->prepare("insert into fruits (name, price) values (:name, :price)");
   // $name = 'banana';
   // $fruits->bindParam(':name',$name, PDO::PARAM_STR);
   // $fruits->bindValue(':price', 700,PDO::PARAM_INT);
@@ -38,17 +38,27 @@ try {
   // $price = 200;
   // $fruits->execute();
 
-  $fruits = $pdo->query("select * from fruits where price < 700");
-  $fruitsAll = $fruits->fetchAll(PDO::FETCH_COLUMN|PDO::FETCH_UNIQUE);
-  // $fruits = $pdo->prepare("select * from fruits where name like ?");
-  // $fruits->execute(['%i%']);
-  foreach($fruitsAll as $fruit) {
-    echo $fruit;
-    echo '<br>';
-  }
-  echo $fruits->rowCount() . "件抽出されました";
+  // $fruits = $pdo->prepare("delete from fruits where name = :name");
+  // $fruitsAll = $fruits->fetchAll(PDO::FETCH_COLUMN|PDO::FETCH_UNIQUE);
+  // // $fruits = $pdo->prepare("select * from fruits where name like ?");
+  // // $fruits->execute(['%i%']);
+  // foreach($fruitsAll as $fruit) {
+  //   echo $fruit;
+  //   echo '<br>';
+  // }
+  // $fruits->execute([
+  //   ':name' => 'apple'
+  // ]);
+  // echo $fruits->rowCount() . "件削除されました";
+
+  $pdo->beginTransaction();
+  $pdo->exec("update fruits set price = price - 100 where name = 'orange'");
+  $pdo->exec("update fruits set price = price + 100 where name = 'kiwi'");
+  $pdo->commit();
+
 
 } catch(PDOException $e) {
+  $pdo->rollback();
   echo "エラー発生しました";
   echo $e->getMessage();
   exit;
