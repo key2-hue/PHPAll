@@ -38,12 +38,12 @@ try {
   // $price = 200;
   // $fruits->execute();
 
-  // $fruits = $pdo->query("select * from fruits where price < 700");
-  // $fruitsAll = $fruits->fetchAll(PDO::FETCH_ASSOC);
-  $fruits = $pdo->prepare("select * from fruits where name like ?");
-  $fruits->execute(['%i%']);
-  foreach($fruits as $fruit) {
-    echo $fruit["name"];
+  $fruits = $pdo->query("select * from fruits where price < 700");
+  $fruitsAll = $fruits->fetchAll(PDO::FETCH_COLUMN|PDO::FETCH_UNIQUE);
+  // $fruits = $pdo->prepare("select * from fruits where name like ?");
+  // $fruits->execute(['%i%']);
+  foreach($fruitsAll as $fruit) {
+    echo $fruit;
     echo '<br>';
   }
   echo $fruits->rowCount() . "件抽出されました";
