@@ -6,8 +6,13 @@ define("DATABASE_PASSWORD",'keymaeda2');
 define('PDO_DSN','mysql:dbhost=localhost;unix_socket=/tmp/mysql.sock;dbname='.DATABASE_NAME);
 
 try {
-  $pdo = new PDO(DATABASE_NAME,DATABASE_USERNAME,DATABASE_PASSWORD);
-  $pdo->setAttribute(PDO::ATR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+  $pdo = new PDO(PDO_DSN,DATABASE_USERNAME,DATABASE_PASSWORD);
+  $pdo->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+
+  // $pdo->exec("insert into fruits (name, price) values ('apple', 300)");
+  // echo "フルーツを登録しました！";
+
+  $db = null;
 } catch(PDOException $e) {
   echo "エラー発生しました";
   echo $e->getMessage();
